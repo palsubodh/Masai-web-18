@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #navbar{
+            display: flex;
+            justify-content: space-around;
+            background-color: teal;
+            color: red;
+            padding: 10px;
+            font-size: 20px;
+         }
+         #container{
+             display: flex;
+             flex-wrap: wrap;
+             gap: 20px;
+         }
+         button{
+             border-radius: 8px;
+             background-color: blue;
+             color: white;
+             font-size: 15px;
+             cursor: pointer;
+         }
+         button:hover{
+             background-color: red;
+             color: white;
+             
+         }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <div><a target="blank" href="men.html">Men</a></div>
+        <div> <a href="women.html">women</a> </div>
+        <div> <a href="cart.html">Cart</a></div>
+    </div>
+    <p></p>
+    <div id="container"></div>
+</body>
+</html>
+<script>
+    var collection=JSON.parse(localStorage.getItem("cart"))||[]
+
+    
+    var total=collection.reduce(function(sum,el,index,arr){
+        return sum + Number(el.price)
+    },0)||0
+    // // console.log(total)
+    var length=collection.length
+    // // console.log(length)
+
+
+    
+    document.querySelector("p").innerText="You have $"+length+" item in card and total is Rs $"+total+"."
+
+    collection.map(function(el,index){
+        var box=document.createElement("div");
+
+        var imge=document.createElement("img");
+        // imge.src = elm.image_url;
+        // console.log(elm.image_url)
+        imge.setAttribute("src",el.image_url)
+        console.log(imge)
+
+        var name=document.createElement("p");
+        name.innerText=el.name;
+
+        var price=document.createElement("p");
+        price.innerText=el.price;
+
+        var btn=document.createElement("button")
+
+
+        btn.innerText="Remove"
+
+        btn.addEventListener("click",function(){
+            // bt.setAttribute("id","but")
+            removecart(el,index)
+        })
+        box.append(imge,name,price,btn)
+        // console.log(box)
+        document.querySelector("#container").append(box)
+    })
+
+    function removecart(el,index)
+    {
+        collection.splice(index,1)
+        localStorage.setItem("cart",JSON.stringify(collection))
+        window.location.reload()
+    }
+
+
+</script>
